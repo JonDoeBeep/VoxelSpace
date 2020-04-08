@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head><script src="//archive.org/includes/analytics.js?v=cf34f82" type="text/javascript"></script>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app23.us.archive.org';v.server_ms=1093;archive_analytics.send_pageview({});});</script><script type="text/javascript" src="/_static/js/ait-client-rewrite.js" charset="utf-8"></script>
+<script type="text/javascript">
+WB_wombat_Init("https://web.archive.org/web/", "20131113094653", "www.codermind.com");
+</script>
+<script type="text/javascript" src="/_static/js/wbhack.js" charset="utf-8"></script>
+<script type="text/javascript">
+__wbhack.init('https://web.archive.org/web');
+</script>
+<link rel="stylesheet" type="text/css" href="/_static/css/banner-styles.css" />
+<link rel="stylesheet" type="text/css" href="/_static/css/iconochive.css" />
+<!-- End Wayback Rewrite JS Include -->
+
+  <title>Voxel terrain engine - Building the terrain</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="copyright In a coder's mind 2003-2008"/>
+<meta name="keywords" content="voxel terrain in c++,software rendering,outcast,comanche,height map,real time engine"/>
+<meta name="robots" content="index,follow"/>
+<meta name="DC.title" content="Voxel terrain engine - Building the terrain"/>
+<link rel="shortcut icon" href="/web/20131113094653im_/http://www.codermind.com/misc/favicon.gif" type="image/x-icon"/>
+  <style type="text/css" media="all">@import "/web/20131113094653cs_/http://www.codermind.com/files/css/b839810368ff530e696b644a87cf545f.css";</style>
+  <script type="text/javascript" src="/web/20131113094653js_/http://www.codermind.com/misc/jquery.js"></script>
+<script type="text/javascript" src="/web/20131113094653js_/http://www.codermind.com/misc/drupal.js"></script>
+<script type="text/javascript">Drupal.extend({ settings: { "googleanalytics": { "trackDownload": "pdf|zip|mp3|rar|jpg|gif|png|mov|mpeg|mpg|xml|rss" } } });</script>
+</head>
+
+<body><!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<script type="text/javascript" src="/_static/js/timestamp.js" charset="utf-8"></script>
+<script type="text/javascript" src="/_static/js/graph-calc.js" charset="utf-8"></script>
+<script type="text/javascript" src="/_static/js/auto-complete.js" charset="utf-8"></script>
+<script type="text/javascript" src="/_static/js/toolbar.js" charset="utf-8"></script>
+<style type="text/css">
+body {
+  margin-top:0 !important;
+  padding-top:0 !important;
+  /*min-width:800px !important;*/
+}
+.wb-autocomplete-suggestions {
+    text-align: left; cursor: default; border: 1px solid #ccc; border-top: 0; background: #fff; box-shadow: -1px 1px 3px rgba(0,0,0,.1);
+    position: absolute; display: none; z-index: 2147483647; max-height: 254px; overflow: hidden; overflow-y: auto; box-sizing: border-box;
+}
+.wb-autocomplete-suggestion { position: relative; padding: 0 .6em; line-height: 23px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1.02em; color: #333; }
+.wb-autocomplete-suggestion b { font-weight: bold; }
+.wb-autocomplete-suggestion.selected { background: #f0f0f0; }
+</style>
+<div id="wm-ipp-base" lang="en" style="display:none;direction:ltr;">
+<div id="wm-ipp" style="position:fixed;left:0;top:0;right:0;">
+<div id="wm-ipp-inside">
+  <div style="position:relative;">
+    <div id="wm-logo" style="float:left;width:130px;padding-top:10px;">
+      <a href="/web/" title="Wayback Machine home page"><img src="/_static/images/toolbar/wayback-toolbar-logo.png" alt="Wayback Machine" width="110" height="39" border="0" /></a>
+    </div>
+    <div class="r" style="float:right;">
+      <div id="wm-btns" style="text-align:right;height:25px;">
+                  <div id="wm-save-snapshot-success">success</div>
+          <div id="wm-save-snapshot-fail">fail</div>
+          <a href="#"
+             onclick="__wm.saveSnapshot('http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html', '20131113094653')"
+             title="Share via My Web Archive"
+             id="wm-save-snapshot-open"
+          >
+            <span class="iconochive-web"></span>
+          </a>
+          <a href="https://archive.org/account/login.php"
+             title="Sign In"
+             id="wm-sign-in"
+          >
+            <span class="iconochive-person"></span>
+          </a>
+          <span id="wm-save-snapshot-in-progress" class="iconochive-web"></span>
+        	<a href="http://faq.web.archive.org/" title="Get some help using the Wayback Machine" style="top:-6px;"><span class="iconochive-question" style="color:rgb(87,186,244);font-size:160%;"></span></a>
+	<a id="wm-tb-close" href="#close" onclick="__wm.h(event);return false;" style="top:-2px;" title="Close the toolbar"><span class="iconochive-remove-circle" style="color:#888888;font-size:240%;"></span></a>
+      </div>
+      <div id="wm-share">
+          <a href="/web/20131113094653/http://web.archive.org/screenshot/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html"
+             id="wm-screenshot"
+             title="screenshot">
+              <span class="wm-icon-screen-shot"></span>
+          </a>
+	<a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html', '', 'height=400,width=600'); return false;" title="Share on Facebook" style="margin-right:5px;" target="_blank"><span class="iconochive-facebook" style="color:#3b5998;font-size:160%;"></span></a>
+	<a href="#" onclick="window.open('https://twitter.com/intent/tweet?text=https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html&amp;via=internetarchive', '', 'height=400,width=600'); return false;" title="Share on Twitter" style="margin-right:5px;" target="_blank"><span class="iconochive-twitter" style="color:#1dcaff;font-size:160%;"></span></a>
+      </div>
+    </div>
+    <table class="c" style="">
+      <tbody>
+	<tr>
+	  <td class="u" colspan="2">
+	    <form target="_top" method="get" action="/web/submit" name="wmtb" id="wmtb"><input type="text" name="url" id="wmtbURL" value="http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html" onfocus="this.focus();this.select();" /><input type="hidden" name="type" value="replay" /><input type="hidden" name="date" value="20131113094653" /><input type="submit" value="Go" /></form>
+	  </td>
+	  <td class="n" rowspan="2" style="width:110px;">
+	    <table>
+	      <tbody>
+		<!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+		<tr class="m">
+		  <td class="b" nowrap="nowrap"><a href="https://web.archive.org/web/20131010222318/http://www.codermind.com:80/articles/Voxel-terrain-engine-building-the-terrain.html" title="10 Oct 2013"><strong>Oct</strong></a></td>
+		  <td class="c" id="displayMonthEl" title="You are here: 09:46:53 Nov 13, 2013">NOV</td>
+		  <td class="f" nowrap="nowrap"><a href="https://web.archive.org/web/20140928225636/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html" title="28 Sep 2014"><strong>Sep</strong></a></td>
+		</tr>
+		<!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+		<tr class="d">
+		  <td class="b" nowrap="nowrap"><a href="https://web.archive.org/web/20131112040305/http://www.codermind.com:80/articles/Voxel-terrain-engine-building-the-terrain.html" title="04:03:05 Nov 12, 2013"><img src="/_static/images/toolbar/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0" /></a></td>
+		  <td class="c" id="displayDayEl" style="width:34px;font-size:24px;white-space:nowrap;" title="You are here: 09:46:53 Nov 13, 2013">13</td>
+		  <td class="f" nowrap="nowrap"><a href="https://web.archive.org/web/20140928225636/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html" title="22:56:36 Sep 28, 2014"><img src="/_static/images/toolbar/wm_tb_nxt_on.png" alt="Next capture" width="14" height="16" border="0" /></a></td>
+		</tr>
+		<!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+		<tr class="y">
+		  <td class="b" nowrap="nowrap"><a href="https://web.archive.org/web/20121030115408/http://www.codermind.com:80/articles/Voxel-terrain-engine-building-the-terrain.html" title="30 Oct 2012"><strong>2012</strong></a></td>
+		  <td class="c" id="displayYearEl" title="You are here: 09:46:53 Nov 13, 2013">2013</td>
+		  <td class="f" nowrap="nowrap"><a href="https://web.archive.org/web/20141212063419/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html" title="12 Dec 2014"><strong>2014</strong></a></td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </td>
+	</tr>
+	<tr>
+	  <td class="s">
+	    	    <div id="wm-nav-captures">
+	      	      <a class="t" href="/web/20131113094653*/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html" title="See a list of every capture for this URL">94 captures</a>
+	      <div class="r" title="Timespan for captures of this URL">13 Mar 2008 - 17 Aug 2019</div>
+	      </div>
+	  </td>
+	  <td class="k">
+	    <a href="" id="wm-graph-anchor">
+	      <div id="wm-ipp-sparkline" title="Explore captures for this URL" style="position: relative">
+		<canvas id="wm-sparkline-canvas" width="625" height="27" border="0"></canvas>
+	      </div>
+	    </a>
+	  </td>
+	</tr>
+      </tbody>
+    </table>
+    <div style="position:absolute;bottom:0;right:2px;text-align:right;">
+      <a id="wm-expand" class="wm-btn wm-closed" href="#expand" onclick="__wm.ex(event);return false;"><span id="wm-expand-icon" class="iconochive-down-solid"></span> <span style="font-size:80%">About this capture</span></a>
+    </div>
+  </div>
+    <div id="wm-capinfo" style="border-top:1px solid #777;display:none; overflow: hidden">
+            <div style="background-color:#666;color:#fff;font-weight:bold;text-align:center">COLLECTED BY</div>
+    <div style="padding:3px;position:relative" id="wm-collected-by-content">
+            <div style="display:inline-block;vertical-align:top;width:50%;">
+			<span class="c-logo" style="background-image:url(https://archive.org/services/img/NO404);"></span>
+		Organization: <a style="color:#33f;" href="https://archive.org/details/NO404" target="_new"><span class="wm-title">Internet Archive</span></a>
+		<div style="max-height:75px;overflow:hidden;position:relative;">
+	  <div style="position:absolute;top:0;left:0;width:100%;height:75px;background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 90%,rgba(255,255,255,255) 100%);"></div>
+	  These crawls are part of an effort to archive pages as they are created and archive the pages that they refer to.   That way, as the pages that are referenced are changed or taken from the web, a link to the version that was live when the page was written will be preserved.  
+<br><br>
+Then the Internet Archive hopes that references to these archived pages will be put in place of a link that would be otherwise be broken, or a companion link to allow people to see what was originally intended by a page's authors.
+<br><br>
+The goal is to <a href="https://blog.archive.org/2013/10/25/fixing-broken-links/">fix all broken links on the web</a>. 
+
+Crawls of supported "No More 404" sites.
+	</div>
+	      </div>
+      <div style="display:inline-block;vertical-align:top;width:49%;">
+			<span class="c-logo" style="background-image:url(https://archive.org/services/img/NO404-WKP)"></span>
+		<div>Collection: <a style="color:#33f;" href="https://archive.org/details/NO404-WKP" target="_new"><span class="wm-title">Wikipedia Near Real Time (from IRC)</span></a></div>
+		<div style="max-height:75px;overflow:hidden;position:relative;">
+	  <div style="position:absolute;top:0;left:0;width:100%;height:75px;background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 90%,rgba(255,255,255,255) 100%);"></div>
+	  This is a collection of web page captures from links added to, or changed on, Wikipedia pages. The idea is to bring a reliability to Wikipedia outlinks so that if the pages referenced by Wikipedia articles are changed, or go away, a reader can permanently find what was originally referred to.
+<br>
+<br>
+This is part of the Internet Archive's attempt to <a href="https://blog.archive.org/2013/10/25/fixing-broken-links/">rid the web of broken links</a>.
+	</div>
+	      </div>
+    </div>
+    <div style="background-color:#666;color:#fff;font-weight:bold;text-align:center" title="Timestamps for the elements of this page">TIMESTAMPS</div>
+    <div>
+      <div id="wm-capresources" style="margin:0 5px 5px 5px;max-height:250px;overflow-y:scroll !important"></div>
+      <div id="wm-capresources-loading" style="text-align:left;margin:0 20px 5px 5px;display:none"><img src="/_static/images/loading.gif" alt="loading" /></div>
+    </div>
+  </div></div></div></div><div id="donato" style="position:relative;width:100%;">
+  <div id="donato-base">
+    <iframe id="donato-if" src="https://archive.org/includes/donate.php?as_page=1&amp;transpiled=0&amp;referer=https%3A//web.archive.org/web/20131113094653/http%3A//www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html"
+	    scrolling="no" frameborder="0" style="width:100%; height:100%">
+    </iframe>
+  </div>
+</div><script type="text/javascript">
+__wm.bt(625,27,25,2,"web","http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html","2013-11-13",1996,"/_static/",['css/banner-styles.css','css/iconochive.css']);
+__wm.checkScreenShot("http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html", '20131113094653');
+</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+  <div id="header_bar">
+        <div id="header_logo">
+                <h1><a href="/web/20131113094653/http://www.codermind.com/">Codermind</a></h1>        <h2>In a coder's mind</h2>    </div>
+        <div id="navigator" class="clearfix">
+      <div class="center_box">
+                <ul>
+                <li class="first"><a href="/web/20131113094653/http://www.codermind.com/">News</a> </li>
+                <li class="active"><a href="/web/20131113094653/http://www.codermind.com/articles/Technical-articles.html">Articles</a> </li>
+                <li><a href="/web/20131113094653/http://www.codermind.com/answers/List-by-topic.html">Answers</a> </li>
+                <li><a href="/web/20131113094653/http://www.codermind.com/resources/List-by-resource-type.html">Resources</a> </li>
+                <li>
+        <a href="/web/20131113094653/http://www.codermind.com/rss.xml" title="rss" rel="nofollow"><img src="/web/20131113094653im_/http://www.codermind.com/misc/feed.png" alt="rss"/></a>
+        </li>
+        <li>
+                <a href="/web/20131113094653/http://www.codermind.com/user/login.html?destination=" rel="nofollow">Login</a>
+                </li>
+        <li>
+         <form action="/web/20131113094653/http://www.codermind.com/search/results.html" method="get" id="google-cse-searchbox-form">
+          <div>
+          <input type="hidden" name="cx" id="edit-cx" value="000492653495019987599:t-m_rn8zcgo"/>
+          <input type="hidden" name="cof" id="edit-cof" value="FORID:9"/>
+          <span class="form-item">
+            <input type="text" maxlength="128" name="query" id="edit-query" size="10" value="" title="Site search provided by Google Custom Search Engine." class="form-text"/>
+          </span>
+          <input type="hidden" name="form_token" id="edit-google-cse-searchbox-form-form-token" value="cdbb4127f4bba22f0fe260f60fc36297"/>
+          <input type="hidden" name="form_id" id="edit-google-cse-searchbox-form" value="google_cse_searchbox_form"/>
+          </div>
+        </form>  
+       </li>
+        </ul>
+              </div>
+    </div>
+  </div>
+  <div class="middle-container clearfix">
+    <div class="content_header">
+      <div class="header_image">
+        <h1>Voxel terrain engine - Building the terrain</h1>      </div>
+          </div>
+            <div class="content_pad"></div>
+    <div class="content_bg clearfix">
+        <div class="side_nav">
+      <div class="block">
+    <div class="block-header">
+    <h3>The Voxel series</h3>
+  </div>
+    <div class="block-content">
+    <p>A two part article serie that describes how to do a voxel terrain engine in C++.</p>
+<p><a href="/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html">Voxel terrain engine - Building the terrain</a></p>
+<p><a href="/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-visibility-occlusion.html">Voxel terrain engine - Visibility, occlusion</a></p>
+<p><a href="/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-beautification-features.html">Voxel terrain engine - Beautification features</a></p>
+<p><a href="/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-conclusion-future-work.html">Voxel terrain engine - Conclusion and future work</a></p>
+<p><a href="/web/20131113094653/http://www.codermind.com/resources/List-by-resource-type.html">Annex : Real time rendering resources</a></p>
+<p><a href="/web/20131113094653/http://www.codermind.com/about/Biography-LeGreg.html">About the author : LeGreg</a>.</p>
+  </div>
+</div>
+    </div>
+        <div class="content_global">
+                  <div class="bread_crumbs">
+      <a href="/web/20131113094653/http://www.codermind.com/">Home</a> &raquo; <a href="/web/20131113094653/http://www.codermind.com/articles/Technical-articles.html">Articles</a> &raquo; Voxel terrain engine - Building the terrain      </div>
+            <div class="content_teaser" style="text-align: center;"><a href="https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Raytracer-in-C++-Introduction-What-is-ray-tracing.html" title="Ray tracing in C++"><img src="/web/20131113094653im_/http://www.codermind.com/files/ray-tracing-teaser.jpg" width="128" height="50" alt="Ray tracing in C++"/></a><a href="https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Atmospheric-effects-in-the-cry-engine.html" title="Atmospheric effects in Crysis"><img src="/web/20131113094653im_/http://www.codermind.com/files/crysis-atmospheric-teaser.jpg" width="128" height="50" alt="Atmospheric effects in Crysis"/></a><a href="https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Depth-buffer-tutorial.html" title="Precision of the ZBuffer"><img src="/web/20131113094653im_/http://www.codermind.com/files/depth-buffer-teaser.gif" width="128" height="50" alt="Precision of the ZBuffer"/></a><a href="https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html" title="Voxel tutorial"><img src="/web/20131113094653im_/http://www.codermind.com/files/voxel-teaser.jpg" width="128" height="50" alt="Voxel tutorial"/></a></div>
+      <div class="content_main">
+                        <div class="node">
+          <table width="100%">
+    <tr>
+        <td align="left">
+      <h5 class="byline">by the Codermind team.</h5>
+    </td>
+            <td align="right">
+      <h5 class="taxonomy"><ul class="links inline"><li class="first taxonomy_term_5"><a href="/web/20131113094653/http://www.codermind.com/articles/list-by-type-courses.html" rel="tag" title="" class="taxonomy_term_5">Courses</a></li>
+<li class="taxonomy_term_1"><a href="/web/20131113094653/http://www.codermind.com/articles/list-by-topic-cplusplus.html" rel="tag" title="" class="taxonomy_term_1">Cplusplus</a></li>
+<li class="taxonomy_term_4"><a href="/web/20131113094653/http://www.codermind.com/articles/list-by-topic-programming.html" rel="tag" title="" class="taxonomy_term_4">Programming</a></li>
+<li class="taxonomy_term_2"><a href="/web/20131113094653/http://www.codermind.com/articles/list-by-topic-terrain.html" rel="tag" title="" class="taxonomy_term_2">Terrain</a></li>
+<li class="last taxonomy_term_3"><a href="/web/20131113094653/http://www.codermind.com/articles/list-by-topic-voxel.html" rel="tag" title="" class="taxonomy_term_3">Voxel</a></li>
+</ul></h5>
+    </td>
+        </tr>
+    </table>
+    
+  <div class="content"><p>Starting by the obvious, what is a voxel ? A voxel
+is a short for <em>volume
+element</em> in the same way as pixel is a contraction of picture
+element. OK that doesn't really make sense but they just wanted to make
+it sound the same. There are different kind of voxels, one that we
+won't consider here is to see voxel as a way to represent volumetric
+object as three dimensional bitmaps instead of vectors (by opposition,
+polygonal objects
+are made of vectors). In this situation voxels are like Lego. Small
+bricks that constitute a bigger object, similar to the relation pixels
+have with the bigger image. </p>
+<p>But here we'll
+only discuss the voxel terrain as featured
+in games like Outcast or Comanche. The voxel terrain engine is a 2.5D
+engine, it doesn't have all the levels of freedom that a regular 3D
+engine offers. It has the same degree of freedom as ray casting engines
+(popularized by Doom) and they are so close than in fact you could
+probably implement a voxel terrain engine as a ray caster. We won't do
+that, instead we'll use rasterization with a few tricks. Why is it
+called voxel if this isn't the same as the first definition ? Because
+our terrain is constituted by small 2D bricks that expand vertically.
+So this is a voxel, only a more restrictive definition of a voxel.</p>
+
+
+
+<p style="text-align:right;"><script type="text/javascript">
+digg_url = 'https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html';
+digg_skin = 'compact';
+</script>
+<script src="https://web.archive.org/web/20131113094653js_/http://digg.com/tools/diggthis.js" type="text/javascript"></script></p>
+
+<h2 class="PostTitle2">Introduction</h2><hr/>
+<p>This
+project was started as I discovered the screenshots of Outcast in 1999
+and decided to do something similar. This was a rather large project
+given that I didn't know anything about 3D engines or C++, but the math
+seemed easy enough. What is following is the newest version using Win32
+for the interface (sorry if I use a lot of Win32 notations but I guess
+that the algorithms explained below are&nbsp;portable enough).</p>
+<p style="text-align: center;"><img style="width: 640px; height: 480px;" alt="" src="https://web.archive.org/web/20131113094653im_/http://www.codermind.com/files/high2.jpg"/></p>
+<p style="text-align: left;">For
+some laughs, the original versions with a bad case of programmer art
+(and an underpowered Pentium).</p>
+<p style="text-align: center;"><img style="width: 320px; height: 240px;" alt="" src="https://web.archive.org/web/20131113094653im_/http://www.codermind.com/files/voxel1999.gif"/></p>
+<p style="text-align: left;">Why would you need a voxel
+engine
+nowadays ? Short answer you don't need one. If you've got a 3D
+accelerator you can have a very detailed terrain with multi texturing,
+occlusion with a z buffer, powerful shading languages, and most of the
+work (clipping, rasterization, transformation etc..) is done for you
+and is the fastest you could ever hope to get. You should see what
+follows as a mere exercise of fun. There are better tools, so use them.</p>
+<p style="text-align: left;">Now that the disclaimer is
+on,
+let's go have some fun.</p>
+<h2 class="PostTitle2">First
+there was the height map</h2><hr/>
+<p>The easiest and fastest way
+to represent a random terrain is through a height map. This implicitly
+associates a 2D coordinates with a fixed elevation. We obviously cannot
+represent all kind of terrains like that, there is no way we can have a
+arch or anything that breaks the rule "one height per position on the
+map". If you need something like that you probably don't want a voxel
+engine to represent your world. You don't need to read what
+follows,&nbsp;go look for polygonal engine (and probably 3D
+acceleration).</p>
+
+<p style="text-align: center;"><img style="width: 640px; height: 360px;" alt="" src="https://web.archive.org/web/20131113094653im_/http://www.codermind.com/files/Arches.jpg"/><br/>
+<small>Utah
+is too
+complicated for our voxel engine. (all photos and images &copy;
+<a href="https://web.archive.org/web/20131113094653/http://photos.massal.net/" rel="external">Gr&eacute;gory
+Massal)</a></small></p>
+<p>The authoring can be tricky,
+there are real worlds data available&nbsp;as elevation maps, but
+what if I want to represent something that doesn't exist anywhere else
+?
+Asking an artist to do a simple terrain with faults, mountains,
+crevices, plains, can be a lot of pain. There are tools that help you
+author random generated height maps. For this article I used the free
+versions of <a href="https://web.archive.org/web/20131113094653/http://www.world-machine.com/" rel="external nofollow">World
+machine</a> and <a href="https://web.archive.org/web/20131113094653/http://www.planetside.co.uk/terragen/" rel="external nofollow">Terragen</a>.
+And with some amount of work or by using pregenerated scripts you can
+get realistic enough terrains (go see their galleries for more).</p>
+<p>For
+each position on the map I have a corresponding height encoded as a 8
+bit number. 0 to 255 might not be enough for what you envision but you
+can of course vary the elevation range that is contained in those 8
+bits (compression), and if that is not enough you can go for 16 bit
+integers or 32 bit floating point numbers. It's really a decision
+depending of your data and there are way to compress those bits better
+to achieve
+a similar result with a smaller memory footprint. I won't detail them
+too much. Let's go back to our design.</p>
+<p style="text-align: center;"><img style="width: 400px; height: 400px;" alt="" src="https://web.archive.org/web/20131113094653im_/http://www.codermind.com/files/height.gif"/> </p>
+
+<p>Make sure that the
+map you've created is using the full range of 0 to 255, this is small
+enough that you don't want to lose precious bits of information in the
+process. For this engine purpose I also had to make the map tileable.
+That means that if I go beyond the left side of the map, I can
+magically wrap to the right side of the map and not fall a cliff
+because the aspect of the right border is a perfect fit for the left
+border. I won't detail that too much, but there are ways to make sure
+of that, one is taking an untileable map and transform it into a copy
+of the same map duplicated four time and mirrored horizontally or
+vertically. This way the left border is perfectly equal to the right
+border. Inconvenient is that you have a map that is highly redundant
+(well you were going to make it tiled anyway..). Another solution is to
+generate a slightly larger version of the map, to crop the upper border
+and report the deleted bit to the lower part of the image with a smooth
+blend with the underlying image. That way the lower border will be a
+match with the upper border and this will look seamless enough. In this
+example I did this manually and this is far from perfect but with a bit
+of practice you'll have to be looking closely for defects. There are
+also advanced algorithms that try to preserve the features of the
+original image and minimize the repetition artifacts but that's too
+overkill for this little project.</p>
+
+<h2 class="PostTitle2">Second
+there was the visibility</h2><hr/>
+
+<p style="text-align: center;"><img style="width: 400px; height: 400px;" alt="" src="https://web.archive.org/web/20131113094653im_/http://www.codermind.com/files/visibility.gif"/></p>
+
+<p>Before drawing every single
+terrain element you have to determine what is visible and what is not.
+This is both a performance and a correctness problem. If a terrain
+element is partially visible or totally occluded and you draw it
+anyway, then you have a correctness issue. If you draw terrain elements
+that are situated behind your camera or outside of your view then you
+have spent numerous cpu cycles for basically nothing. &nbsp;</p>
+
+<p>See part II : <a href="/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-visibility-occlusion.html">Voxel terrain engine - Visibility, occlusion</a>.</p>
+
+<p style="text-align:right;"><script type="text/javascript">
+digg_url = 'https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html';
+digg_skin = 'compact';
+</script>
+<script src="https://web.archive.org/web/20131113094653js_/http://digg.com/tools/diggthis.js" type="text/javascript"></script></p></div>
+  <!--<div class="links-header clearfix">Links</div>--><div class="links-body"><ul class="links inline"><li class="first last article_discuss"><a href="/web/20131113094653/http://www.codermind.com/discuss/Discuss-Voxel-terrain-engine-Building-the-terrain.html" title="Discuss this article" class="article_discuss">discuss this article</a></li>
+</ul></div></div>
+              </div>
+    </div>
+  </div>
+</div>
+<div id="footer">
+  <div id="footer_content">
+    <div class="left"><a href="https://web.archive.org/web/20131113094653/http://validator.w3.org/check/referer" rel="external nofollow">XHTML</a>
+    |    
+        <a href="/web/20131113094653/http://www.codermind.com/about/webmaster-contact.html" rel="nofollow">Contact Us</a>
+    
+    </div>
+        <div class="right">All data, text, code, image, music are property of In a coder's mind (2000-2008)
+</div>
+      </div>
+</div>
+<script type="text/javascript" src="/web/20131113094653js_/http://www.codermind.com/files/googleanalytics/urchin.js"></script>
+<script type="text/javascript">
+_uacct = "UA-105832-7";urchinTracker();
+</script>
+<script type="text/javascript" src="/web/20131113094653js_/http://www.codermind.com/sites/all/modules/google_analytics/downloadtracker.js"></script>
+
+  <p style="text-align: center;"> 
+    <small>Partner websites : <a href="https://web.archive.org/web/20131113094653/http://www.massal.net/">LEGREG</a> 
+  | <a href="https://web.archive.org/web/20131113094653/http://www.codermind.com/">GRAPHICS</a> 
+  | <a href="https://web.archive.org/web/20131113094653/http://www.codermind.fr/">GRAPHISME</a> 
+  | <a href="https://web.archive.org/web/20131113094653/http://photos.massal.net/">PHOTOGRAPHY</a>
+  | <a href="https://web.archive.org/web/20131113094653/http://logon.codermind.com/">OUT OF MY MIND</a>
+  | <a href="https://web.archive.org/web/20131113094653/http://sabine.massal.net/">ANIMATION MENTOR</a>
+  | <a href="https://web.archive.org/web/20131113094653/http://www.austin-green-home.com/">GREEN LIVING</a>
+  | <a href="https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html">VOXEL</a> 
+  | <a href="https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Raytracer-in-C++-Introduction-What-is-ray-tracing.html">RAY TRACING</a> 
+  | <a href="https://web.archive.org/web/20131113094653/http://www.coderdeals.com/food-groceries.html">GUENARDI</a> 
+  | <a href="https://web.archive.org/web/20131113094653/http://pagerank.codermind.com/" title="Add this page rank counter to your page.">
+      <img src="https://web.archive.org/web/20131113094653im_/http://pagerank.codermind.com/page-rank-image.php?usereferrer=true" alt="Add this page rank counter to your page." border="0"/></a>
+    </small>
+    </p>
+    
+</body>
+</html><!--
+     FILE ARCHIVED ON 09:46:53 Nov 13, 2013 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 14:47:10 Apr 08, 2020.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  CDXLines.iter: 24.939 (3)
+  exclusion.robots.policy: 0.429
+  captures_list: 640.016
+  esindex: 0.02
+  exclusion.robots: 0.453
+  RedisCDXSource: 32.993
+  load_resource: 438.402
+  LoadShardBlock: 570.794 (3)
+  PetaboxLoader3.resolve: 563.817 (3)
+  PetaboxLoader3.datanode: 387.609 (5)
+-->
